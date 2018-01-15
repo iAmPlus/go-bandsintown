@@ -25,13 +25,10 @@ func get(url string, obj interface{}) error {
 	resp, err := http.Get(url)
 
 	if err != nil {
-		trace("error GET %s", err)
 		return err
 	}
 
 	if resp.StatusCode != 200 {
-		trace("error status code %d", resp.StatusCode)
-
 		errMessage := getError(resp.Body)
 		if len(errMessage) > 0 {
 			return errors.New(errMessage)
@@ -53,7 +50,6 @@ func readBody(responseBody io.ReadCloser, obj interface{}) error {
 	}
 
 	if err := json.Unmarshal(body, &obj); err != nil {
-		trace("error %s", err)
 		return err
 	}
 
