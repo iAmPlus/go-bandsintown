@@ -8,10 +8,7 @@ import (
 
 	"github.com/bradfitz/latlong"
 	"github.com/iAmPlus/go-bandsintown/model"
-	"github.com/tj/go-debug"
 )
-
-var trace = debug.Debug("bands:log")
 
 const (
 	API_ROUTE   = "http://api.bandsintown.com/"
@@ -73,8 +70,6 @@ func (c *Client) GetArtist(name string) (model.Artist, error) {
 		return artist, err
 	}
 
-	trace("artist %s", artist)
-
 	return artist, nil
 }
 
@@ -83,11 +78,8 @@ func (c Client) GetArtistEvents(name string) ([]model.Event, error) {
 	var events wrapperEvents
 	url := fmt.Sprintf("%s/%s/events?app_id=%s&api_version=%s&format=json", URL, name, c.API_KEY, VERSION)
 	if err := get(url, &events); err != nil {
-		trace("error %s", err)
 		return events.events, err
 	}
-
-	trace("events %d", len(events.events))
 
 	return events.events, nil
 }
